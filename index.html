@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>GifTastic</title>
+</head>
+
+<body>
+    <!-- <div id="buttons">
+    <button data-parent="spaghetti">
+    Spaghetti</button>
+     
+    <button data-parent="pineapple">
+    Pineapple</button>
+     
+    <button data-parent="banana">
+    Banana</button>
+     
+    <button data-parent="hotdog">
+    Hotdog</button>
+
+    <button data-parent="ice cream">
+    Ice Cream</button>
+
+    <button data-parent="avocado">
+    Avocado</button>
+
+    <button data-parent="chocolate">
+    Chocolate</button>
+
+    <button data-parent="sweet potato">
+    Sweet Potato</button>
+
+    <button data-parent="salad">
+    Salad</button>
+
+    <button data-parent="taco">
+    Taco</button> -->
+
+    <!-- </div> -->
+    <div id="buttons">
+    
+    </div>
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var topics =[
+        "spaghetti",
+        "pineapple",
+        "banana",
+        "hotdog",
+    ]
+    function createButtons(){
+    //     topics.forEach(function(topics){
+    //         var button = $("<button class= "search-term">");
+    //         button.html(topics);
+
+    //         $("buttons").append(button);
+    //     });
+        var buttonList = $("#buttons");
+        for(var a = 0; a<topics.length; a++){
+            var newButton = $("<button>").text(topics[a]);
+        
+            buttonList.append(newButton);
+            
+            console.log(topics[a]);
+        }
+    }
+    createButtons();
+ 
+
+    $("button").on("click", function() {
+        var searchTerm = $(this).attr("data-parent");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm
+         + "&api_key=M5wy8o0vlHnxMoy0XEYEpzWSvCSJMB1A&limit=10";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+            console.log("working");
+            var results = response.data;
+            console.log(results);
+
+            for (var i = 0; i < results.length; i++) {
+                
+
+                var rating = results[i].rating;
+
+                $("<p>").prepend("Rating: " + rating);
+                console.log(rating);
+
+                var Image = $("<img>");
+                Image.attr("src", results[i].images.fixed_height.url);
+
+                $("#gif").prepend(Image);
+                // gifDiv.prepend(p);
+                // gifDiv.prepend(Image);
+
+                // $("#gifs-appear-here").prepend(gifDiv);
+            }
+        });
+    });
+
+</script>
+</body>
+
+</html>
