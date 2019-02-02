@@ -2,10 +2,13 @@
 <html lang="en-us">
 
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/style.css">
     <title>GifTastic</title>
 </head>
 
 <body>
+    <h1>GIFTASTIC</h1>
     <!-- <div id="buttons">
     <button data-parent="spaghetti">
     Spaghetti</button>
@@ -38,9 +41,11 @@
     Taco</button> -->
 
     <!-- </div> -->
-    <div id="buttons">
-    
-    </div>
+    <div id="buttons"></div>
+
+    <div id="appear"> HALLPPP</div>
+
+
         
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -49,6 +54,12 @@
         "pineapple",
         "banana",
         "hotdog",
+        "ice cream",
+        "avocado",
+        "chocolate",
+        "sweet potato",
+        "salad",
+        "taco"
     ]
     function createButtons(){
     //     topics.forEach(function(topics){
@@ -58,49 +69,81 @@
     //         $("buttons").append(button);
     //     });
         var buttonList = $("#buttons");
+        
         for(var a = 0; a<topics.length; a++){
             var newButton = $("<button>").text(topics[a]);
         
             buttonList.append(newButton);
+
+            newButton.addClass("btn btn-outline-dark");
             
             console.log(topics[a]);
         }
+       
     }
     createButtons();
+
+    // var appear = $("#appear");
  
 
     $("button").on("click", function() {
-        var searchTerm = $(this).attr("data-parent");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchTerm
-         + "&api_key=M5wy8o0vlHnxMoy0XEYEpzWSvCSJMB1A&limit=10";
+        var topic = $(this).attr("button");
+
+        // var topic = 
+
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q="+topic+
+        "&api_key=M5wy8o0vlHnxMoy0XEYEpzWSvCSJMB1A&limit=10";
 
       $.ajax({
         url: queryURL,
         method: "GET"
       })
         .then(function(response) {
+
             console.log("working");
             var results = response.data;
             console.log(results);
 
+           
+        
+            
             for (var i = 0; i < results.length; i++) {
-                
+                var newGif = $("<div id='appear-here'>").html(results);
+                // gifs.append(newGif);
+                console.log(newGif);
 
                 var rating = results[i].rating;
+                var gifs = $("<div class='gifs'>");
+                var appear = $("#appear");
+                var ratingClass = $("<p class='r'>")
+                var ratingTitle = $("<div class='ratingTitle'>")
 
-                $("<p>").prepend("Rating: " + rating);
+                // $("<p>").text("Rating: " + rating);
                 console.log(rating);
 
-                var Image = $("<img>");
-                Image.attr("src", results[i].images.fixed_height.url);
+                // var image = $("<img>");
+                // image.attr("src", results[i].images.fixed_height.url);
 
-                $("#gif").prepend(Image);
+                // image.html(newGif);
+
+                // gifs.prepend(image);
                 // gifDiv.prepend(p);
                 // gifDiv.prepend(Image);
 
-                // $("#gifs-appear-here").prepend(gifDiv);
             }
+            appear.append(gifs);
+            gifs.append(image);
+            // image.append(ratingTitle);
+            // ratingTitle.append(ratingClass);
+
+
+
+            
         });
+
+       
+
+
     });
 
 </script>
